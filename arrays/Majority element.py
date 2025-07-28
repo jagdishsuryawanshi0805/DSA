@@ -1,18 +1,16 @@
 class Solution(object):
     def majorityElement(self, nums):
-        # Initialize a counter to track how many times our current candidate is "supported"
-        count = 0
-        # This will hold our current majority candidate
-        candidate = None
-        # Loop through every number in the array
+        # Create an empty dictionary (hash map) to count occurrences of each number
+        count_map = {}
+        # Loop through each number in the array
         for num in nums:
-            # If count is 0, we choose a new candidate
-            if count == 0:
-                candidate = num  # Pick the current number as the new candidate
-            # If the current number is the same as our candidate, it's a vote for the candidate
-            if num == candidate:
-                count += 1  # Increase support count
+            # If the number is already in the dictionary, increase its count
+            if num in count_map:
+                count_map[num] += 1
             else:
-                count -= 1  # Otherwise, it's a vote against the candidate
-        # At the end, candidate will be the majority element
-        return candidate
+                # If it's not in the dictionary, add it with count = 1
+                count_map[num] = 1
+            # Check immediately if this number has become the majority
+            # Majority means count > n // 2
+            if count_map[num] > len(nums) // 2:
+                return num  # As soon as we find it, return it
